@@ -15,10 +15,10 @@
 import ResourceItem from './ResourceItem.vue';
 
 export default {
+  inject: ['resources'],
   components: {
     ResourceItem,
   },
-  props: ['resources'],
 };
 </script>
 

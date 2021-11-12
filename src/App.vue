@@ -1,8 +1,10 @@
 <template>
   <the-header title="Learn Vue"></the-header>
+  <the-resource></the-resource>
 </template>
 <script>
 import TheHeader from './components/layouts/TheHeader.vue';
+import TheResource from './components/learning-resources/TheResource.vue';
 export default {
   methods: {
     removeRecource(id) {
@@ -11,24 +13,7 @@ export default {
   },
   components: {
     TheHeader,
-  },
-  data() {
-    return {
-      resources: [
-        {
-          id: 'official-guide',
-          title: 'Official Guide',
-          description: 'Official Vue documetation',
-          url: 'https://vuejs.org',
-        },
-        {
-          id: 'google',
-          title: 'Google',
-          description: 'Learn to google',
-          url: 'https://google.com',
-        },
-      ],
-    };
+    TheResource,
   },
 };
 </script>
