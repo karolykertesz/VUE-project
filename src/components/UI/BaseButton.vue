@@ -17,9 +17,6 @@ export default {
       type: String,
     },
   },
-  methods: {
-    deleteItem() {},
-  },
 };
 </script>
 

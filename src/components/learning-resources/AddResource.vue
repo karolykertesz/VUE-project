@@ -1,17 +1,26 @@
 <template>
+  <base-dialog v-if="error" :title="error" @close="confirmError">
+    <template #secondary>
+      <p>Unfortunatly one input value is invalid</p>
+    </template>
+    <template #main> </template>
+    <template #actions>
+      <base-button @click="confirmError">OK</base-button>
+    </template>
+  </base-dialog>
   <base-card>
-    <form>
+    <form @submit.prevent="formSubmit">
       <div class="form-control">
         <label for="title">Title</label>
-        <input type="text" id="title" name="title" :v-mode="title" />
+        <input type="text" id="title" name="title" ref="title" />
       </div>
       <div class="form-control">
         <label for="desc">Description</label>
-        <textarea id="desc" name="desc" rows="3" :v-model="desc"></textarea>
+        <textarea id="desc" name="desc" rows="3" v-model="desc"></textarea>
       </div>
       <div class="form-control">
         <label for="link">Link</label>
-        <input type="url" id="link" name="link" :v-model="link" />
+        <input type="url" id="link" name="link" ref="link" />
       </div>
       <div>
         <base-button :type="submit" @click="formSubmit"> Submit </base-button>
@@ -21,17 +30,46 @@
 </template>
 
 <script>
+import BaseButton from '../UI/BaseButton.vue';
+import BaseDialog from '../UI/BaseDialog.vue';
 export default {
+  components: { BaseDialog, BaseButton },
   data() {
     return {
-      title: '',
       desc: '',
-      link: '',
+      error: '',
     };
   },
+  inject: ['addResources'],
   methods: {
-    formSubmit(e) {
-      e.preventDefault();
+    confirmError() {
+      this.error = '';
+    },
+    formSubmit() {
+      const enteredTitle = this.$refs.title.value;
+      const enteredLink = this.$refs.link.value;
+      const errorCheck = () => {
+        const errors = {
+          title: enteredTitle,
+          description: this.desc,
+          url: enteredLink,
+        };
+        for (const keys in errors) {
+          console.log(errors[keys].trim());
+          if (errors[keys].trim().length === 0) {
+            this.error = keys;
+          }
+        }
+      };
+      errorCheck();
+      if (this.error) {
+        return;
+      }
+      this.addResources({
+        title: enteredTitle,
+        desc: this.desc,
+        url: enteredLink,
+      });
     },
   },
 };

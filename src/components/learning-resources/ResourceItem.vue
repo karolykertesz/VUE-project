@@ -5,7 +5,9 @@
         <h3>
           {{ title }}
         </h3>
-        <base-button :id="id" mode="flat">Delete </base-button>
+        <base-button :id="id" mode="flat" @click="remove(id)"
+          >Delete
+        </base-button>
       </header>
 
       <p>{{ description }}</p>
@@ -22,7 +24,7 @@ export default {
     deleteItem() {},
   },
 
-  emits: ['remove-resource'],
+  inject: ['remove'],
   props: {
     title: {
       type: String,

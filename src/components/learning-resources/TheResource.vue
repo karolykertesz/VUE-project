@@ -52,13 +52,30 @@ export default {
   provide() {
     return {
       resources: this.resources,
+      addResources: this.addResources,
+      remove: this.removeResourse,
     };
   },
 
   methods: {
     changeResource(res) {
-      console.log(res);
       this.currentResource = res;
+    },
+    addResources(res) {
+      const { title, desc, url } = res;
+      const newResourse = {
+        id: new Date().toISOString(),
+        title,
+        description: desc,
+        url,
+      };
+
+      this.resources.unshift(newResourse);
+      this.currentResource = 'stored-resources';
+    },
+    removeResourse(id) {
+      const index = this.resources.findIndex((el) => el.id === id);
+      this.resources.splice(index, 1);
     },
   },
 };
